@@ -1,0 +1,20 @@
+{
+  "name": "letcode_project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "run:tests": "npx playwright test",
+    "test:dev": "playwright test --ui",
+    "test:debug": "playwright test --debug",
+    "codegen": "playwright codegen",
+    "report:show": "playwright show-report"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.38.1",
+    "@types/node": "^20.8.2"
+  }
+}
