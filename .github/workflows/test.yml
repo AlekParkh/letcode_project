@@ -47,6 +47,9 @@ jobs:
       - name: Run tests
         run: npm run test:report
 
+      - name: Install Allure Commandline
+        run: npm install -g allure-commandline
+
       - name: Generate Allure Report
         run: npm run allure_report:generate
 
