@@ -40,4 +40,5 @@ class ProductsPage extends BasePage {
         await this._clickConfirmOrderBth.click();
     }
 }
+
 module.exports = ProductsPage;

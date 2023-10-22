@@ -1,4 +1,5 @@
 const BasePage = require('./base-page');
+const logger = require("../tests/utils/logger");
 
 class ShoppingCardPage extends BasePage {
     constructor(page) {
@@ -25,7 +26,7 @@ class ShoppingCardPage extends BasePage {
                         return cartQtyValue.trim();
                     }
                 } catch (error) {
-                    console.log(`Attempt ${attempt}: Unable to fetch quantity. Retrying...`);
+                    await logError(`Attempt ${attempt}: Unable to fetch quantity. Retrying...`);
                 }
                 // Ждать небольшой промежуток времени перед следующей попыткой
                 if (attempt < maxAttempts) {
@@ -48,4 +49,9 @@ class ShoppingCardPage extends BasePage {
             return orderText.trim();
         }
 }
+
+async function logError(message) {
+    logger.error(message);
+}
+
 module.exports = ShoppingCardPage;

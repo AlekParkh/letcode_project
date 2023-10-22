@@ -3,6 +3,8 @@ const BasePage = require('../../pages/base-page');
 const MainPage = require("../../pages/main-page");
 const {generateRandomUserData, generateRandomBillingAddress} = require('../utils/randomDataGenerator');
 const ProductsPage = require("../../pages/products-page");
+const logger = require('../utils/logger');
+require('dotenv').config();
 
 
 test.describe('Checks w/o login', () => {
@@ -16,7 +18,7 @@ test.describe('Checks w/o login', () => {
     });
 
     test('WEB-1: Success registration to SW', async ({page}) => {
-        await log('Step 1. Register to SW with valid credentials.');
+        await logStep('Step 1. Register to SW with valid credentials.');
         const randomUserData = generateRandomUserData();
         const mainPage = new MainPage(page);
         const registerPage = await mainPage.header.clickRegister();
@@ -38,28 +40,15 @@ test.describe('Checks w/o login', () => {
         await expect(await mainPage.checkWishlistQty()).toBe('(0)');
     })
 
-    test('WEB-2: Success login to SW', async ({page}) => {
-        await log('Step 1. Login to SW with valid credentials.');
-        const mainPage = new MainPage(page);
-        const loginPage = await mainPage.header.clickLogin();
-        await loginPage.fillLoginForm('alek.parkhomenko@gmail.com', 'Test!123');
-        await loginPage.clickLoginBtn();
-
-        await expect(page.locator('.account').first()).toHaveText('alek.parkhomenko@gmail.com');
-        await expect(page.locator('.ico-logout')).toBeVisible();
-        await expect(await mainPage.checkCartQty()).toBe('(0)');
-        await expect(await mainPage.checkWishlistQty()).toBe('(0)');
-    })
-
     test('WEB-3: Сheck adding item to cart', async({page}) => {
-        await log ('Step 1. Login to SW and select "Desktops" category.');
+        await logStep('Step 1. Login to SW and select "Desktops" category.');
         const mainPage = new MainPage(page);
         const computersPage = await mainPage.clickComputers();
         const desktopsPage = await computersPage.openDesktops();
 
         await expect(page).toHaveURL(/desktops/)
 
-        await log('Step 2. Select one position and add to card');
+        await logStep('Step 2. Select one position and add to card');
         const cheapComputerPage = await desktopsPage.addToCard();
         await cheapComputerPage.addToCard();
 
@@ -81,7 +70,7 @@ test.describe('Checks with login', () => {
         await basePage.open();
         const mainPage = new MainPage(page);
         const loginPage = await mainPage.header.clickLogin();
-        await loginPage.fillLoginForm('alek.parkhomenko@gmail.com', 'Test!123');
+        await loginPage.fillLoginForm(process.env.LOGIN, process.env.PASSWORD);
         await loginPage.clickLoginBtn();
     });
 
@@ -90,8 +79,18 @@ test.describe('Checks with login', () => {
         await mainPage.clickLogout();
     });
 
+    test('WEB-2: Success login to SW', async ({page}) => {
+        await logStep('Step 1. Login to SW with valid credentials.');
+        const mainPage = new MainPage(page);
+
+        await expect(page.locator('.account').first()).toHaveText('alek.parkhomenko@gmail.com');
+        await expect(page.locator('.ico-logout')).toBeVisible();
+        await expect(await mainPage.checkCartQty()).toBe('(0)');
+        await expect(await mainPage.checkWishlistQty()).toBe('(0)');
+    })
+
     test('WEB-4: Placement and confirmation of order', async ({page}) => {
-        await log('Step 1. Login to SW and add item to cart.');
+        await logStep('Step 1. Login to SW and add item to cart.');
         const mainPage = new MainPage(page);
         const computersPage = await mainPage.clickComputers();
         const desktopsPage = await computersPage.openDesktops();
@@ -104,14 +103,14 @@ test.describe('Checks with login', () => {
         await expect(page.locator('a.product-name:has-text("Build your own cheap computer")')).toBeVisible();
         await expect(page.locator('.cart-item-row')).toBeVisible();
 
-        await log('Step 2. Mark "I agree..." and click "Checkout".');
+        await logStep('Step 2. Mark "I agree..." and click "Checkout".');
         const productsPage = new ProductsPage(page);
         await productsPage.goToCheckout();
 
         await expect(page).toHaveURL(/onepagecheckout/);
         await expect(page.locator('.checkout-page')).toBeVisible();
 
-        await log('Step 3. For input "Billing Address" select option "New Address" -> fill out and click "Continue".');
+        await logStep('Step 3. For input "Billing Address" select option "New Address" -> fill out and click "Continue".');
         const randomData = generateRandomBillingAddress();
         await productsPage.fillBillingAddress(
             '80',
@@ -124,7 +123,7 @@ test.describe('Checks with login', () => {
         await expect(page.locator('#checkout-step-shipping')).toBeVisible();
         await expect(page.locator('#shipping-address-select')).toBeEnabled();
 
-        await log('Step 4. Proceed the flow till the end.');
+        await logStep('Step 4. Proceed the flow till the end.');
         await productsPage.fillCheckoutForm();
 
         await expect(page.locator('.page-title h1')).toHaveText('Thank you');
@@ -161,6 +160,6 @@ test.describe('Checks with login', () => {
     })
 })
 
-async function log(message) {
-    console.log(`[${new Date().toLocaleTimeString()}] ${message}`);
+async function logStep(message) {
+    logger.step(message);
 }

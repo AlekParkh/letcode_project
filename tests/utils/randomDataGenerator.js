@@ -16,6 +16,17 @@ function generateRandomUserData() {
     };
 }
 
+function generateRandomLogIn() {
+    const login = faker.internet.email();
+    const password = faker.internet.password();
+
+    return {
+        login,
+        password
+    };
+
+}
+
 function generateRandomBillingAddress() {
     const city = faker.location.city();
     const streetAddress = faker.location.streetAddress();
@@ -32,5 +43,6 @@ function generateRandomBillingAddress() {
 
 module.exports = {
     generateRandomUserData,
-    generateRandomBillingAddress
+    generateRandomBillingAddress,
+    generateRandomLogIn
 }

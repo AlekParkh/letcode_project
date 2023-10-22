@@ -1,6 +1,8 @@
 const {test, expect} = require('@playwright/test');
 const BasePage = require('../../pages/base-page');
 const MainPage = require("../../pages/main-page");
+const logger = require("../utils/logger");
+const {generateRandomLogIn} = require("../utils/randomDataGenerator");
 
 test.beforeEach(async ({page}) => {
     const basePage = new BasePage(page);
@@ -11,10 +13,14 @@ test.afterEach(async ({ page }) => {
 });
 
 test('WEB-6: Login to SW with wrong credentials', async ({page}) => {
-    await log ('Step 1. Login to SW with invalid credentials.');
+    await logStep('Step 1. Login to SW with invalid credentials.');
     const mainPage = new MainPage(page);
     const loginPage = await mainPage.header.clickLogin();
-    await loginPage.fillLoginForm('test@gmail.com','Test!123');
+    const randomLogin = generateRandomLogIn();
+    await loginPage.fillLoginForm(
+        randomLogin.login,
+        randomLogin.password
+    );
     await loginPage.clickLoginBtn();
 
     await expect(await mainPage.notSuccessLoginError()).toBe('Login was unsuccessful. Please correct the errors and try again.');
@@ -23,7 +29,7 @@ test('WEB-6: Login to SW with wrong credentials', async ({page}) => {
 })
 
 test('WEB-7: Check that groups in "Computers" category are visible', async ({page}) => {
-    await log ('Step 1. Login to SW -> click "Computers" and check that all groups are visible.');
+    await logStep('Step 1. Login to SW -> click "Computers" and check that all groups are visible.');
     const mainPage = new MainPage(page);
     await mainPage.clickComputers();
 
@@ -32,6 +38,6 @@ test('WEB-7: Check that groups in "Computers" category are visible', async ({pag
     await expect(page.locator('img[alt="Picture for category Accessories"]')).toBeVisible();
 })
 
-async function log(message) {
-    console.log(`[${new Date().toLocaleTimeString()}] ${message}`);
+async function logStep(message) {
+    logger.step(message);
 }
