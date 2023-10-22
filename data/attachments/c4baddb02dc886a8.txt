@@ -1,0 +1,4 @@
+[6:38:04 PM] Step 1. Login to SW and add item to cart.
+[6:38:08 PM] Step 2. Mark "I agree..." and click "Checkout".
+[6:38:09 PM] Step 3. For input "Billing Address" select option "New Address" -> fill out and click "Continue".
+[6:38:10 PM] Step 4. Proceed the flow till the end.

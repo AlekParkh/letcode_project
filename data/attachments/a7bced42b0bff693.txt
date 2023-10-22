@@ -1,3 +1,0 @@
-[6:01:57 PM] Step 1. Login to SW -> add product to card
-[6:02:00 PM] Step 2. Click "Edit" -> update "Qty" and "Processor" -> check shopping cart
-[6:02:02 PM] Step 3. Input "0" to Qty -> click "update shopping card" -> check card info
