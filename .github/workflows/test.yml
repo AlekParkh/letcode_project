@@ -1,0 +1,76 @@
+name: Main pipeline
+
+on:
+  workflow_dispatch:
+
+  push:
+    branches: [ "master", "project_work" ]
+  pull_request:
+    branches: [ "master", "project_work" ]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Build package
+        run: npm run build --if-present
+
+      - name: Run tests
+        run: npm run test:report
+
+      - name: Generate Allure Report
+        run: npm run allure_report:generate
+
+      - name: Upload Allure Report
+        uses: actions/upload-artifact@v3
+
+        with:
+          name: allure-report
+          if-no-files-found: error
+          path: ./allure-report
+
+      - name: Deploy Report to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.TEST_TOKEN }}
+          publish_dir: ./allure-report
+
+      - name: Send telegram message on push
+        uses: appleboy/telegram-action@master
+        with:
+          to: 1112368171
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          photo: ./test.png
+          message: |
+            ${{ github.actor }} created commit:
+            Commit message: ${{ github.event.commits[0].message }}
+            
+            Repository: ${{ github.repository }}
+            
+            See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}

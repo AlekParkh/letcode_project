@@ -1,6 +1,7 @@
-class LoginPage {
+const BasePage = require('./base-page');
+class LoginPage extends BasePage {
     constructor(page) {
-        this.page = page;
+        super(page);
         this._inputEmail = page.locator('#Email');
         this._inputPassword = page.locator('[type=Password]');
         this._loginBtn = page.locator('[class*=login-button]');

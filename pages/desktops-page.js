@@ -4,7 +4,6 @@ const CheapComputerPage = require('../pages/buld-your-own-cheap-computer-page');
 class DesktopsPage extends BasePage {
     constructor(page) {
         super(page);
-        this.page = page;
         this._addToCardBtn = page.locator('.button-2.product-box-add-to-cart-button').first();
     }
     async addToCard(){

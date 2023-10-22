@@ -8,13 +8,20 @@
     "test:dev": "playwright test --ui",
     "test:debug": "playwright test --debug",
     "codegen": "playwright codegen",
-    "report:show": "playwright show-report"
+    "report:show": "playwright show-report",
+    "allure_report:generate": "allure generate allure-results --clean -o allure-report",
+    "allure_report: show": "allure open allure-report"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@faker-js/faker": "^8.1.0",
     "@playwright/test": "^1.38.1",
-    "@types/node": "^20.8.2"
+    "@types/node": "^20.8.2",
+    "allure-playwright": "^2.9.2"
+  },
+  "dependencies": {
+    "faker": "^6.6.6"
   }
 }
