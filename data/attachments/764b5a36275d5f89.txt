@@ -1,1 +1,0 @@
-[5:52:05 PM] Step 1. Login to SW with valid credentials.
