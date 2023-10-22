@@ -1,0 +1,4 @@
+[2023-10-22T19:55:40.184Z] STEP: Step 1. Login to SW and add item to cart.
+[2023-10-22T19:55:42.913Z] STEP: Step 2. Mark "I agree..." and click "Checkout".
+[2023-10-22T19:55:44.046Z] STEP: Step 3. For input "Billing Address" select option "New Address" -> fill out and click "Continue".
+[2023-10-22T19:55:45.384Z] STEP: Step 4. Proceed the flow till the end.

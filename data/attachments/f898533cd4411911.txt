@@ -1,1 +1,0 @@
-[6:39:13 PM] Step 1. Login to SW -> click "Computers" and check that all groups are visible.
