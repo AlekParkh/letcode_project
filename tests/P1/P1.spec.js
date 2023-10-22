@@ -50,7 +50,7 @@ test('WEB-10: Check updating product information', async ({page}) => {
     const isProcessorSlowVisible = processorText.includes('Processor: Slow');
     await expect(isProcessorSlowVisible).toBeTruthy();
 
-    await log ('Step 3. Input 0 to Qty -> click "update shopping card" -> check card info');
+    await log ('Step 3. Input "0" to Qty -> click "update shopping card" -> check card info');
     await shoppingCardPage.updateCardQtyToZero();
     await shoppingCardPage.clickUpdateCartBtn();
 
