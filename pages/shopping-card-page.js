@@ -28,7 +28,7 @@ class ShoppingCardPage extends BasePage {
                 } catch (error) {
                     await logError(`Attempt ${attempt}: Unable to fetch quantity. Retrying...`);
                 }
-                // Ждать небольшой промежуток времени перед следующей попыткой
+                // Ждать небольшой промежуток времени перед следующей попыткой.
                 if (attempt < maxAttempts) {
                     await this.page.waitForTimeout(1000);
                 }
