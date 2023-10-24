@@ -1,1 +1,0 @@
-[2023-10-22T19:56:37.482Z] STEP: Step 1. Login to SW -> click "Computers" and check that all groups are visible.

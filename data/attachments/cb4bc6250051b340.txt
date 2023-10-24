@@ -1,2 +1,0 @@
-[2023-10-22T19:55:16.826Z] STEP: Step 1. Login to SW and select "Desktops" category.
-[2023-10-22T19:55:17.808Z] STEP: Step 2. Select one position and add to card

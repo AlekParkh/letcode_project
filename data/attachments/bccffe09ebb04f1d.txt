@@ -1,0 +1,1 @@
+[2023-10-24T13:41:41.025Z] STEP: Step 1. Login to SW and check all categories.
